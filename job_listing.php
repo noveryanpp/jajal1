@@ -1,3 +1,12 @@
+<?php
+
+require_once("config/connect.php");
+$query = "select service.*,client.nama as nama_penjual from service join mitra on mitra.id=service.id_mitra inner join client on client.id=mitra.id_client";
+
+$run_sql1 = mysqli_query($is_connect, $query);//menjalankan query
+//var_dump($sql); //cek isi variabel
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
