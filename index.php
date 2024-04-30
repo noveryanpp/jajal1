@@ -76,8 +76,33 @@ require_once("config/connect.php");
                                 </div>          
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
-                                    <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
-                                    <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
+                                    <?php if( isset($_SESSION['username']) && !empty($_SESSION['username']) )
+                                        {
+                                    ?>
+						<nav class="navbar navbar-expand-sm">
+						  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						    <span class="navbar-toggler-icon"></span>
+						  </button>
+						  <div class="collapse navbar-collapse" id="navbar-list-4">
+						    <ul class="navbar-nav">
+						        <li class="nav-item dropdown">
+						        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						          <img src="./assets/img/icon/defaultpp.jpg" width="40" height="40" class="rounded-circle">
+						        </a>
+						        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						          <a class="dropdown-item" href="#">Dashboard</a>
+						          <a class="dropdown-item" href="#">Edit Profile</a>
+						          <a class="dropdown-item" href="logout.php">Log Out</a>
+						        </div>
+						      </li>   
+						    </ul>
+						  </div>
+						</nav>
+
+                                    <?php }else{ ?>
+                                        <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
+                                        <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

@@ -16,5 +16,8 @@ if(NULL != $data){
 
   header('Location: index.php');
 } else {
-  header('Location: index.php'); 
+    echo '<script language="javascript">';
+    echo 'alert("Login Failed! Check Username or Password");';
+    echo 'window.location = "index.php"';
+    echo '</script>';
 }
