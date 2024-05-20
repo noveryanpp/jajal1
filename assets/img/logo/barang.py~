@@ -1,0 +1,5 @@
+import json
+Condition=True
+
+while (Condition==True):
+    print("Menu Aplikasi :/n(1) Tambah Barang/n(2) Cari Barang")

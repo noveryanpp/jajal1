@@ -1,0 +1,9 @@
+{
+	"nama": "Ali",
+	"umur": 8,
+	"hobi": [
+		"tawuran",
+		"begal"
+	],
+	"lulus": true
+}

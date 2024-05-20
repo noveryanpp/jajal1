@@ -1,230 +1,47 @@
-//<?php
 
+<!--
 //require_once("config/connect.php");
 //$query = "select service.*,client.nama as nama_penjual from service join mitra on mitra.id=service.id_mitra inner join client on client.id=mitra.id_client";
 
 //$run_sql1 = mysqli_query($is_connect, $query);//menjalankan query
 //var_dump($sql); //cek isi variabel
-//?><
+//?
+-->
 <?php
-
-session_start();
-
-if(!isset($_SESSION['id])){
-   require_once("config/connect.php");
-}
+session_start(); // ketika mulai session harus ada sintak ini dulu
+require_once("config/connect.php");
+$query1 = "select service.*,client.nama as nama_penjual from service join mitra on mitra.id=service.id_mitra inner join client on client.id=mitra.id_client";
+$result1 = mysqli_query($is_connect, $query1);
+$allSer = mysqli_fetch_assoc($result1);
+include("navbar.php");
 ?>
-<nav class="navbar navbar-dark bg-dark navbar-expand-sm">
-  <a class="navbar-brand" href="#">
-    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png" width="30" height="30" alt="logo">
-    BootstrapBay
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbar-list-4">
-    <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Dashboard</a>
-          <a class="dropdown-item" href="#">Edit Profile</a>
-          <a class="dropdown-item" href="#">Log Out</a>
-        </div>
-      </li>   
-    </ul>
-  </div>
-</nav>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board HTML-5 Template </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-
-		<!-- CSS here -->
-            <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-            <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-            <link rel="stylesheet" href="assets/css/price_rangs.css">
-            <link rel="stylesheet" href="assets/css/flaticon.css">
-            <link rel="stylesheet" href="assets/css/slicknav.css">
-            <link rel="stylesheet" href="assets/css/animate.min.css">
-            <link rel="stylesheet" href="assets/css/magnific-popup.css">
-            <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-            <link rel="stylesheet" href="assets/css/themify-icons.css">
-            <link rel="stylesheet" href="assets/css/slick.css">
-            <link rel="stylesheet" href="assets/css/nice-select.css">
-            <link rel="stylesheet" href="assets/css/style.css">
-   </head>
-
-   <body>
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/logo.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
-    <header>
-        <!-- Header Start -->
-       <div class="header-area header-transparrent">
-           <div class="headder-top header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-2">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href="index.php"><img src="assets/img/logo/logo.png" alt=""></a>
-                            </div>  
-                        </div>
-                        <div class="col-lg-9 col-md-9">
-                            <div class="menu-wrapper">
-                                <!-- Main-menu -->
-                                <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
-                                        <ul id="navigation">
-                                            <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="job_listing.php">Cari Jasa</a></li>
-                                            <li><a href="about.php">Tentang Kami</a></li>
-                                            <li><a href="contact.php">Kontak</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>          
-                                <!-- Header-btn -->
-                                <div class="header-btn d-none f-right d-lg-block">
-                                    <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
-                                    <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-       </div>
-        <!-- Header End -->
-    </header>
     <main>
-
-        <div class="modal fade" id="modallogin" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true">
-          <div class='modal-dialog modal-lg'>
-            <div class='modal-content'>
-              <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                  <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
-                      <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                          <div class="card-body p-4 p-lg-5 text-black">
-
-                            <form>
-
-                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Masuk ke Akun Anda</h5>
-
-                              <div class="form-outline mb-4">
-                                <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                                <label class="form-label" for="form2Example17">Alamat Email</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="password" id="form2Example27" class="form-control form-control-lg" />
-                                <label class="form-label" for="form2Example27">Kata Sandi</label>
-                              </div>
-
-                              <div class="pt-1 mb-4">
-                                <button class="btn btn-dark btn-lg btn-block" type="button">Masuk</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="row justify-content-center mt-5">
+          <div class="col-xl-10">
+            <form action="#" class="search-box">
+              <div class="input-form">
+                <input type="text" placeholder="Nama Jasa atau Kata Kunci">
               </div>
-            </div>
+              <div class="select-form">
+                  <div class="select-itms">
+                      <select name="select" id="select1">
+                          <option value="">Semua Kategori</option>
+                          <option value="">Otomotif</option>
+                          <option value="">Elektronik</option>
+                          <option value="">Desain</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="search-form">
+                  <a href="#">Cari Jasa</a>
+              </div>	
+            </form>
           </div>
         </div>
-
-        <div class="modal fade" id="modalregister" tabindex="-1" role="dialog" aria-labelledby="RegisterModal" aria-hidden="true">
-          <div class='modal-dialog modal-lg'>
-            <div class='modal-content'>
-              <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                  <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
-                      <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                          <div class="card-body p-4 p-lg-5 text-black">
-
-                            <form>
-
-                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Daftar Akun</h5>
-
-                              <div class="form-outline mb-4">
-                                <input type="text" id="name" class="form-control form-control-lg" />
-                                <label class="form-label" for="name">Nama Lengkap</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="username" id="username class="form-control form-control-lg" />
-                                <label class="form-label" for="username">Username</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="email" id="email" class="form-control form-control-lg" />
-                                <label class="form-label" for="email">Alamat Email</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="tel" id="notelp" class="form-control form-control-lg" />
-                                <label class="form-label" for="notelp">No. Telepon</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="password" id="password" class="form-control form-control-lg" />
-                                <label class="form-label" for="password">Password</label>
-                              </div>
-
-                              <div class="pt-1 mb-4">
-                                <button class="btn btn-dark btn-lg btn-block" type="button">Daftar</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Job List Area Start -->
-        <div class="job-listing-area pt-120 pb-120">
+        <div class="job-listing-area pt-30 pb-120">
             <div class="container">
                 <div class="row">
                     <!-- Left content -->
@@ -241,12 +58,12 @@ if(!isset($_SESSION['id])){
                                             <span>39, 782 Jobs found</span>
                                             <!-- Select job items start -->
                                             <div class="select-job-items">
-                                                <span>Sort by</span>
+                                                <span>Lokasi</span>
                                                 <select name="select">
-                                                    <option value="">None</option>
-                                                    <option value="">job list</option>
-                                                    <option value="">job list</option>
-                                                    <option value="">job list</option>
+                                                    <option value="">Semua</option>
+                                                    <option value="">Yogyakarta</option>
+                                                    <option value="">Jakarta</option>
+                                                    <option value="">Bali</option>
                                                 </select>
                                             </div>
                                             <!--  Select job items End-->
@@ -255,190 +72,39 @@ if(!isset($_SESSION['id])){
                                 </div>
                                 <!-- Count of Job list End -->
                                 <!-- single-job-content -->
-                                <div class="card-deck">
-                                  <div class="card">
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                      </ol>
-                                      <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="First slide">
+                                <div class="row">
+                                <?php
+                                    foreach($allSer as $service);
+                                    {
+                                        $imgUrl = "./assets/img/services/".$service['id']."/".$service['foto_jasa'];
+                                    
+                                ?>
+                                    <div class="col">
+                                        <div class="card">
+                                            <a href="job_details.php?idservice=<?php echo $service['id']?>" class="stretched-link"></a>
+                                            <div>
+                                                <img class="d-block w-100" src="<?php echo $imgUrl ?>" alt="<?php echo $imgUrl ?>">
+                                            </div>
+                                            <div class="container mt-3">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <a href="#"><img class="card-img-top" src="./assets/img/logo/testimonial.png " class="rounded-circle" alt="Card image cap"></a>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <a href="#"><p class="font-weight-bold"><?php echo $service['nama_penjual'] ?></p></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container">
+                                                <h5 class="card-title"><?php echo $service['judul'] ?></h5>
+                                            </div>
+                                            <div class="container">
+                                            <small class="text-muted"><i class="fa-solid fa-star"></i> 4.7 (650)</small>
+                                            <h6 class="card-title">Mulai Rp50.000</h6>
+                                            </div>
                                         </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Second slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Third slide">
-                                        </div>
-                                      </div>
-                                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                      </a>
-                                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                      </a>
-                                    </div>
-                                    <div class="container mt-3">
-                                      <div class="row">
-                                        <div class="col">
-                                          <a href="#"><img class="card-img-top" src="./assets/img/logo/testimonial.png " class="rounded-circle" alt="Card image cap"></a>
-                                        </div>
-                                        <div class="col-9">
-                                            <a href="#"><p class="card-title">Samsul Arif</p></a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="container">
-                                        <h5 class="card-title">Jasa Pembuatan Logo</h5>
-                                    </div>
-                                    <div class="container">
-                                      <small class="text-muted"><i class="fa-solid fa-star"></i> 4.7 (650)</small>
-                                      <h6 class="card-title">Mulai Rp50.000</h6>
-                                    </div>
-                                  </div>
-
-                                  <div class="card">
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                      </ol>
-                                      <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="First slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Second slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Third slide">
-                                        </div>
-                                      </div>
-                                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                      </a>
-                                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                      </a>
-                                    </div>
-                                    <div class="container mt-3">
-                                      <div class="row">
-                                        <div class="col">
-                                          <a href="#"><img class="card-img-top" src="./assets/img/logo/testimonial.png " class="rounded-circle" alt="Card image cap"></a>
-                                        </div>
-                                        <div class="col-9">
-                                            <a href="#"><p class="font-weight-bold">Samsul Arif</p></a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="container">
-                                        <h5 class="card-title">Jasa Pembuatan Logo</h5>
-                                    </div>
-                                    <div class="container">
-                                      <small class="text-muted"><i class="fa-solid fa-star"></i> 4.7 (650)</small>
-                                      <h6 class="card-title">Mulai Rp50.000</h6>
-                                    </div>
-                                  </div>
-
-                                  <div class="card">
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                      </ol>
-                                      <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="First slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Second slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Third slide">
-                                        </div>
-                                      </div>
-                                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                      </a>
-                                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                      </a>
-                                    </div>
-                                    <div class="container mt-3">
-                                      <div class="row">
-                                        <div class="col">
-                                          <a href="#"><img class="card-img-top" src="./assets/img/logo/testimonial.png " class="rounded-circle" alt="Card image cap"></a>
-                                        </div>
-                                        <div class="col-9">
-                                            <a href="#"><p class="font-weight-bold">Samsul Arif</p></a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="container">
-                                        <h5 class="card-title">Jasa Pembuatan Logo</h5>
-                                    </div>
-                                    <div class="container">
-                                      <small class="text-muted"><i class="fa-solid fa-star"></i> 4.7 (650)</small>
-                                      <h6 class="card-title">Mulai Rp50.000</h6>
-                                    </div>
-                                  </div>
-
-                                  <div class="card">
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                      </ol>
-                                      <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="First slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Second slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                          <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Third slide">
-                                        </div>
-                                      </div>
-                                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                      </a>
-                                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                      </a>
-                                    </div>
-                                    <div class="container mt-3">
-                                      <div class="row">
-                                        <div class="col">
-                                          <a href="#"><img class="card-img-top" src="./assets/img/logo/testimonial.png " class="rounded-circle" alt="Card image cap"></a>
-                                        </div>
-                                        <div class="col-9">
-                                            <a href="#"><p class="font-weight-bold">Samsul Arif</p></a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="container">
-                                        <h5 class="card-title">Jasa Pembuatan Logo</h5>
-                                    </div>
-                                    <div class="container">
-                                      <small class="text-muted"><i class="fa-solid fa-star"></i> 4.7 (650)</small>
-                                      <h6 class="card-title">Mulai Rp50.000</h6>
-                                    </div>
-                                  </div>
+                                <?php } ?>
+                                </div>
 
                             </div>
                         </section>

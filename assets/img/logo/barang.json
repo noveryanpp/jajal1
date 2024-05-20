@@ -1,0 +1,19 @@
+{
+	"barang": [
+		{
+			"nama": "Laptop",
+			"harga": 12000,
+			"stok": 10
+		},
+		{
+			"nama": "Keyboard",
+			"harga": 200,
+			"stok": 50
+		},
+		{
+			"nama": "Monitor",
+			"harga": 250000,
+			"stok": 5
+		}
+	]
+}

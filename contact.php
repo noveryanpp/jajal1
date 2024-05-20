@@ -1,3 +1,14 @@
+<?php
+
+session_start(); // ketika mulai session harus ada sintak ini dulu
+
+if (!isset($_SESSION['id'])) 
+require_once("config/connect.php");
+
+?>
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -32,7 +43,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/logo.png" alt="">
+                    <img src="assets/img/logo/logo1.png" alt="">
                 </div>
             </div>
         </div>
@@ -47,7 +58,7 @@
                         <div class="col-lg-3 col-md-2">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                                <a href="index.html"><img src="assets/img/logo/logo1.png" class="w-50" alt=""></a>
                             </div>  
                         </div>
                         <div class="col-lg-9 col-md-9">
@@ -56,26 +67,45 @@
                                 <div class="main-menu">
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="job_listing.html">Find a Jobs </a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="#">Page</a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
-                                                    <li><a href="elements.html">Elements</a></li>
-                                                    <li><a href="job_details.html">job Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="index.php">Beranda</a></li>
+                                            <li><a href="job_listing.php">Cari Jasa</a></li>
+                                            <li><a href="about.php">Tentang Kami</a></li>
+                                            <li><a href="contact.php">Kontak</a></li>
                                         </ul>
                                     </nav>
                                 </div>          
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
-                                    <a href="#" class="btn head-btn1">Register</a>
-                                    <a href="#" class="btn head-btn2">Login</a>
+                                    <?php if( isset($_SESSION['username']) && !empty($_SESSION['username']) )
+                                        {
+                                    ?>
+						<nav class="navbar navbar-expand-sm">
+						  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						    <span class="navbar-toggler-icon"></span>
+						  </button>
+						  <div class="collapse navbar-collapse" id="navbar-list-4">
+						    <ul class="navbar-nav">
+						        <li class="nav-item dropdown">
+						        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						          <img src="./assets/img/icon/defaultpp.jpg" width="40" height="40" class="rounded-circle">
+						        </a>
+						        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						          <a class="dropdown-item" href="#">Dashboard</a>
+						          <a class="dropdown-item" href="#">Edit Profile</a>
+						          <a class="dropdown-item" href="logout.php">Log Out</a>
+						        </div>
+						      </li>   
+						    </ul>
+						  </div>
+						</nav>
+
+                                    <?php }else{ ?>
+                                        <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
+                                        <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
+                                    <?php } ?>
                                 </div>
+                            </div>
+                        </div>
                             </div>
                         </div>
                         <!-- Mobile Menu -->
