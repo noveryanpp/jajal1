@@ -1,248 +1,329 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Review & Rating</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-        .progress-label-left {
-            float: left;
-            margin-right: 0.5em;
-            line-height: 1em;
-        }
-        .progress-label-right {
-            float: right;
-            margin-left: 0.3em;
-            line-height: 1em;
-        }
-        .star-light {
-            color: #e9ecef;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5 mb-5">Review & Rating</h1>
-        <div class="card">
-            <div class="card-header">Sample Product</div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-4 text-center">
-                        <h1 class="text-warning mt-4 mb-4">
-                            <b><span id="average_rating">0</span> / 5</b>
-                        </h1>
-                        <div class="mb-3">
-                            <i class="fas fa-star star-light mr-1 main_star"></i>
-                            <i class="fas fa-star star-light mr-1 main_star"></i>
-                            <i class="fas fa-star star-light mr-1 main_star"></i>
-                            <i class="fas fa-star star-light mr-1 main_star"></i>
-                            <i class="fas fa-star star-light mr-1 main_star"></i>
+<?php
+
+session_start(); // ketika mulai session harus ada sintak ini dulu
+require_once("config/connect.php");
+if(isset($_SESSION['id'])){
+    $idclient = $_SESSION['id'];
+    $query = mysqli_query($is_connect, "SELECT * FROM client WHERE id = $idclient ");
+
+    if(mysqli_num_rows($query) == 1){
+        $row = mysqli_fetch_assoc($query);
+        $fotoprofil = $row['foto_profil'];
+    }
+}else{
+  header('Location: index.php');
+}
+?>
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+         <title>Jajal</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">
+		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+		<!-- CSS here -->
+            <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+            <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="assets/css/flaticon.css">
+            <link rel="stylesheet" href="assets/css/price_rangs.css">
+            <link rel="stylesheet" href="assets/css/slicknav.css">
+            <link rel="stylesheet" href="assets/css/animate.min.css">
+            <link rel="stylesheet" href="assets/css/magnific-popup.css">
+            <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+            <link rel="stylesheet" href="assets/css/themify-icons.css">
+            <link rel="stylesheet" href="assets/css/slick.css">
+            <link rel="stylesheet" href="assets/css/nice-select.css">
+            <link rel="stylesheet" href="assets/css/style.css">
+   </head>
+
+   <body>
+    <header>
+        <!-- Header Start -->
+       <div class="header-area header-transparrent">
+           <div class="headder-top header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-2">
+                            <!-- Logo -->
+                            <div class="logo">
+                                <a href="index.php"><img src="assets/img/logo/logo1.png" class="w-50"alt=""></a>
+                            </div>  
                         </div>
-                        <h3><span id="total_review">0</span> Review</h3>
-                    </div>
-                    <div class="col-sm-4">
-                        <!-- Star progress bars -->
-                        <p>
-                            <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
-                            <div class="progress-label-right">(<span id="total_five_star_review">0</span>)</div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="five_star_progress"></div>
+                        <div class="col-lg-9 col-md-9">
+                            <div class="menu-wrapper">
+                                <!-- Main-menu -->
+                                <div class="main-menu">
+                                    <nav class="d-none d-lg-block">
+                                        <ul id="navigation">
+                                            <li><a href="index.php">Beranda</a></li>
+                                            <li><a href="search.php">Cari Jasa</a></li>
+                                            <li><a href="category.php">Kategori</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>          
+                                <!-- Header-btn -->
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <?php if( isset($_SESSION['username']) && !empty($_SESSION['username']) )
+                                        {
+                                    ?>
+						<nav class="navbar navbar-expand-sm">
+						  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						    <span class="navbar-toggler-icon"></span>
+						  </button>
+						  <div id="pp">
+						    <a href="profile.php?userid=<?php echo $_SESSION['id'] ?>">
+						          <img src="assets/img/profile/<?php echo $idclient; ?>/<?php echo $fotoprofil; ?>" width="60" height="50" class="rounded-circle">
+                            </a>
+						  </div>
+						</nav>
+
+                                    <?php }else{ ?>
+                                        <a href="#login" class="btn head-btn2" id="login" data-toggle="modal" data-target="#modallogin">Masuk</a>
+                                        <a href="#register" class="btn head-btn1" id="register" data-toggle="modal" data-target="#modalregister">Daftar</a>
+                                    <?php } ?>
+                                </div>
                             </div>
-                        </p>
-                        <p>
-                            <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
-                            <div class="progress-label-right">(<span id="total_four_star_review">0</span>)</div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="four_star_progress"></div>
-                            </div>
-                        </p>
-                        <p>
-                            <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
-                            <div class="progress-label-right">(<span id="total_three_star_review">0</span>)</div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="three_star_progress"></div>
-                            </div>
-                        </p>
-                        <p>
-                            <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
-                            <div class="progress-label-right">(<span id="total_two_star_review">0</span>)</div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="two_star_progress"></div>
-                            </div>
-                        </p>
-                        <p>
-                            <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
-                            <div class="progress-label-right">(<span id="total_one_star_review">0</span>)</div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="one_star_progress"></div>
-                            </div>
-                        </p>
-                    </div>
-                    <div class="col-sm-4 text-center">
-                        <h3 class="mt-4 mb-3">Tambahkan Review Anda</h3>
-                        <button type="button" name="add_review" id="add_review" class="btn btn-primary">Review</button>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
                     </div>
                 </div>
+           </div>
+       </div>
+       <div class="modal fade" id="modallogin" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true">
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
+                      <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                        <img src="assets\img\hero\oniel.png"
+                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                          <div class="card-body p-4 p-lg-5 text-black">
+
+                        <form action='proses_login.php' method='post'>
+
+                          <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Masuk ke Akun Anda</h5>
+
+                          <div class="form-outline mb-4">
+                            <input type="text" name='username' class="form-control form-control-lg" />
+                            <label class="form-label" for="form2Example17">Pengguna</label>
+                          </div>
+
+                          <div class="form-outline mb-4">
+                            <input type="password" name='password' class="form-control form-control-lg" />
+                            <label class="form-label" for="form2Example27">Kata Sandi</label>
+                          </div>
+
+                          <div class="pt-1 mb-4">
+                            <input type='submit' class="btn btn-dark btn-lg btn-block" value='Masuk'>
+                          </div>
+
+                          <div class="d-flex align-items-center justify-content-center">
+                            <p class="fs-4 mb-0 fw-bold">Belum punya akun?</p>
+                            <a class="text-primary fw-bold ms-2" href=#register class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Buat Akun</a>
+                        </form>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="mt-5" id="review_content"></div>
-    </div>
 
-    <!-- Review Modal -->
-    <div id="review_modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Submit Review</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="submit_review_form">
-                        <h4 class="text-center mt-2 mb-4">
-                            <i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
-                            <i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
-                            <i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
-                            <i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
-                            <i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
-                        </h4>
-                        <div class="form-group">
-                            <textarea name="komentar" id="komentar" class="form-control" placeholder="Masukkan Komentar Anda"></textarea>
+        <div class="modal fade" id="modalregister" tabindex="-1" role="dialog" aria-labelledby="RegisterModal" aria-hidden="true">
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
+                      <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                        <img src="assets\img\hero\oniel.png"
+                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
                         </div>
-                        <div class="form-group text-center mt-4">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                          <div class="card-body p-4 p-lg-5 text-black">
+
+                            <form action='proses_register.php' method='post'>
+
+                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Daftar Akun</h5>
+
+                              <div class="form-outline mb-4">
+                                <input type="text" name="username" class="form-control form-control-lg" />
+                                <label class="form-label" for="username">Username</label>
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <input type="password" name="password" class="form-control form-control-lg" />
+                                <label class="form-label" for="password">Password</label>
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <input type="text" name="nama" class="form-control form-control-lg" />
+                                <label class="form-label" for="nama">Nama Lengkap</label>
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <input type="text" name="no_telepon" class="form-control form-control-lg" />
+                                <label class="form-label" for="no_telepon">No. Telepon</label>
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <input type="text" name="alamat" class="form-control form-control-lg" />
+                                <label class="form-label" for="email">Alamat</label>
+                              </div>
+
+                              <div class="form-outline mb-4">
+                                <input type="email" name="email" class="form-control form-control-lg" />
+                                <label class="form-label" for="email">Email</label>
+                              </div>
+
+                              <div class="pt-1 mb-4">
+                              <button name='register' class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Daftar</button>
+                              </div>
+                            </form>
+                          </div>
                         </div>
-                    </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
 
-    <script>
-    $(document).ready(function(){
-        var rating_data = 0;
+        <div class="modal fade" id="loginmitra" tabindex="-1" role="dialog" aria-labelledby="LoginMitra" aria-hidden="true">
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
+                      <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                          <img src="assets\img\hero\oniel.png" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                          <div class="card-body p-4 p-lg-5 text-black">
 
-        $('#add_review').click(function(){
-            $('#review_modal').modal('show');
-        });
+                            <form action='proseslogin_mitra.php' method='post'>
 
-        $(document).on('mouseenter', '.submit_star', function(){
-            var rating = $(this).data('rating');
-            reset_background();
-            for(var count = 1; count <= rating; count++) {
-                $('#submit_star_'+count).addClass('text-warning');
-            }
-        });
+                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Masuk Mode Mitra</h5>
 
-        function reset_background() {
-            for(var count = 1; count <= 5; count++) {
-                $('#submit_star_'+count).addClass('star-light');
-                $('#submit_star_'+count).removeClass('text-warning');
-            }
-        }
+                              <div class="form-outline mb-4">
+                                <input type="password" name='password' class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example27">Masukkan Password Mitra</label>
+                              </div>
 
-        $(document).on('mouseleave', '.submit_star', function(){
-            reset_background();
-            for(var count = 1; count <= rating_data; count++) {
-                $('#submit_star_'+count).removeClass('star-light');
-                $('#submit_star_'+count).addClass('text-warning');
-            }
-        });
+                              <div class="pt-1 mb-4">
+                                <input type='submit' class="btn btn-dark btn-lg btn-block" value='Masuk'>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        $(document).on('click', '.submit_star', function(){
-            rating_data = $(this).data('rating');
-        });
+        <div class="modal fade" id="registermitra" tabindex="-1" role="dialog" aria-labelledby="RegMitra" aria-hidden="true">
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
+                      <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                          <img src="assets\img\hero\oniel.png"
+                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                          <div class="card-body p-4 p-lg-5 text-black">
+                            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Bergabung Menjadi Mitra!</h5>
 
-        $('#submit_review_form').on('submit', function(event){
-            event.preventDefault();
+                            <div class="mb-4">
+                              <p><b>Keuntungan menjadi Mitra :</b><br>
+                              -Mendapatkan Pengalaman Bekerja<br>
+                              -Penghasilan Tambahan<br>
+                              (Khusus untuk anak SMA/SMK dan Mahasiswa)</p>
+                            </div>
 
-            var komentar = $('#komentar').val();
+                            <div class="pt-1 mb-4">
+                              <a href="registermitra.php" class="btn btn-dark btn-lg btn-block">Gabung Sekarang</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            if(komentar == '') {
-                alert("Please Fill Both Fields");
-                return false;
-            } else {
-                $.ajax({
-                    url:"submit_rating.php",
-                    method:"POST",
-                    data:{rating_data:rating_data, komentar:komentar},
-                    success:function(data) {
-                        $('#review_modal').modal('hide');
-                        load_rating_data();
-                        alert(data);
-                    }
-                })
-            }
-        });
 
-        load_rating_data();
+        <!-- Header End -->
+    </header>
 
-        function load_rating_data() {
-            $.ajax({
-                url:"submit_rating.php",
-                method:"POST",
-                data:{action:'load_data'},
-                dataType:"JSON",
-                success:function(data) {
-                    $('#average_rating').text(data.average_rating);
-                    $('#total_review').text(data.total_review);
+      <!-- JS here -->
+	<!--
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/popper.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
 
-                    var count_star = 0;
-                    $('.main_star').each(function(){
-                        count_star++;
-                        if(Math.ceil(data.average_rating) >= count_star) {
-                            $(this).addClass('text-warning');
-                            $(this).addClass('star-light');
-                        }
-                    });
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="./assets/js/owl.carousel.min.js"></script>
+        <script src="./assets/js/slick.min.js"></script>
+        <script src="./assets/js/price_rangs.js"></script>
+        
+		<!-- One Page, Animated-HeadLin -->
+        <script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+        <script src="./assets/js/jquery.magnific-popup.js"></script>
 
-                    $('#total_five_star_review').text(data.five_star_review);
-                    $('#total_four_star_review').text(data.four_star_review);
-                    $('#total_three_star_review').text(data.three_star_review);
-                    $('#total_two_star_review').text(data.two_star_review);
-                    $('#total_one_star_review').text(data.one_star_review);
-
-                    $('#five_star_progress').css('width', (data.five_star_review/data.total_review) * 100 + '%');
-                    $('#four_star_progress').css('width', (data.four_star_review/data.total_review) * 100 + '%');
-                    $('#three_star_progress').css('width', (data.three_star_review/data.total_review) * 100 + '%');
-                    $('#two_star_progress').css('width', (data.two_star_review/data.total_review) * 100 + '%');
-                    $('#one_star_progress').css('width', (data.one_star_review/data.total_review) * 100 + '%');
-
-                    if(data.review_data.length > 0) {
-                        var html = '';
-                        for(var count = 0; count < data.review_data.length; count++) {
-                            html += '<div class="row mb-3">';
-                            html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2"><h3 class="text-center">'+data.review_data[count].id_client.charAt(0)+'</h3></div></div>';
-                            html += '<div class="col-sm-11">';
-                            html += '<div class="card">';
-                            html += '<div class="card-header"><b>'+data.review_data[count].id_client+'</b></div>';
-                            html += '<div class="card-body">';
-                            for(var star = 1; star <= 5; star++) {
-                                var class_name = '';
-                                if(data.review_data[count].rating >= star) {
-                                    class_name = 'text-warning';
-                                } else {
-                                    class_name = 'star-light';
-                                }
-                                html += '<i class="fas fa-star '+class_name+' mr-1"></i>';
-                            }
-                            html += '<br />';
-                            html += data.review_data[count].komentar;
-                            html += '</div>';
-                            html += '<div class="card-footer text-right">On '+data.review_data[count].tanggal+'</div>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                        }
-                        $('#review_content').html(html);
-                    }
-                }
-            })
-        }
-    });
-    </script>
-</body>
+		<!-- Scrollup, nice-select, sticky -->
+        <script src="./assets/js/jquery.scrollUp.min.js"></script>
+        <script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+        
+        <!-- contact js -->
+        <script src="./assets/js/contact.js"></script>
+        <script src="./assets/js/jquery.form.js"></script>
+        <script src="./assets/js/jquery.validate.min.js"></script>
+        <script src="./assets/js/mail-script.js"></script>
+        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+        
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="./assets/js/plugins.js"></script>
+        <script src="./assets/js/main.js"></script>
+    </body>
 </html>

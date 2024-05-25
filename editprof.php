@@ -1,5 +1,4 @@
 <?php
-// update_profile.php
 session_start();
 include('config/connect.php'); // Include your database connection
 
@@ -18,27 +17,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = [];
 
     if (empty($username)) {
-        $errors[] = "<script> alert('Username is Required.') </script>; <script>window.location='editprofile.php';s</script>";
+        $errors[] = "Username dibutuhkan.";
     }
     if (empty($nama)) {
-        $errors[] = "<script> alert('Your Name is Required.') </script>; <script>window.location='editprofile.php';s</script>";
+        $errors[] = "Nama dibutuhkan.";
     }
     if (empty($no_telepon)) {
-        $errors[] = "<script> alert('Number Phone is Required.') </script>; <script>window.location='editprofile.php';s</script>";
+        $errors[] = "No. Telp Dibutuhkan.";
     }
     if (empty($email)) {
-        $errors[] = "<script> alert('Email is Required.') </script>; <script>window.location='editprofile.php';s</script>";
+        $errors[] = "Email dibutuhkan.";
     }
     if (!empty($newpassword) && $newpassword != $confirmpassword) {
-        $errors[] = "<script> alert('password beda') </script>; <script>window.location='editprofile.php';s</script>";
+        $errors[] = "Masukkan Password yang Sama.";
     }
 
-    if (count($errors) == 0) {
+    $uploadOk = 1;
+    $fotoProfilName = $_FILES["foto_profil"]["name"];
+
+    if (!empty($fotoProfilName)) {
+        if ($_FILES["foto_profil"]["size"] > 1000000) {
+            $errors[] = "Ukuran File Terlalu Besar (Max = 1MB).";
+            $uploadOk = 0;
+        }
+
+        $allowedFormats = ["jpg", "png", "jpeg"];
+        $fileExtension = strtolower(pathinfo($fotoProfilName, PATHINFO_EXTENSION));
+        if (!in_array($fileExtension, $allowedFormats)) {
+            $errors[] = "Hanya JPG, JPEG, PNG yang diperbolehkan.";
+            $uploadOk = 0;
+        }
+    }
+
+    if (count($errors) == 0 && $uploadOk == 1) {
         // Fetch existing data
-        $stmt = $is_connect->prepare("SELECT username, nama, no_telepon, email, alamat FROM client WHERE id = ?");
+        $stmt = $is_connect->prepare("SELECT username, nama, no_telepon, email, alamat, foto_profil FROM client WHERE id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
-        $stmt->bind_result($existing_username, $existing_nama, $existing_no_telepon, $existing_email, $existing_alamat);
+        $stmt->bind_result($existing_username, $existing_nama, $existing_no_telepon, $existing_email, $existing_alamat, $existing_foto_profil);
         $stmt->fetch();
         $stmt->close();
 
@@ -73,9 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_needed = true;
         }
         if (!empty($newpassword)) {
-            $hashed_password = ($newpassword);
+            $hashed_password = password_hash($newpassword, PASSWORD_DEFAULT);
             $sql .= "password = ?, ";
             $params[] = $hashed_password;
+            $update_needed = true;
+        }
+        if (!empty($fotoProfilName)) {
+            $sql .= "foto_profil = ?, ";
+            $params[] = $fotoProfilName;
             $update_needed = true;
         }
 
@@ -89,9 +110,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param(str_repeat('s', count($params) - 1) . 'i', ...$params);
 
             if ($stmt->execute()) {
+                if (!empty($fotoProfilName)) {
+                    $targetDir = "./assets/img/profile/" . $user_id . "/";
+                    if (!is_dir($targetDir)) {
+                        mkdir($targetDir, 0777, true);
+                    }
+                    $targetFile = $targetDir . $fotoProfilName;
+
+                    // Remove old profile picture
+                    if (!empty($existing_foto_profil) && file_exists($targetDir . $existing_foto_profil)) {
+                        unlink($targetDir . $existing_foto_profil);
+                    }
+
+                    if (!move_uploaded_file($_FILES["foto_profil"]["tmp_name"], $targetFile)) {
+                        echo '<script>alert("Gagal Mengupload Foto.");</script>';
+                    }
+                }
+
                 echo '<script language="javascript">';
                 echo 'alert("Profil anda telah diperbarui");';
-                echo 'window.location = "profile.php"';
+                echo 'window.location = "profile.php?userid='.$user_id.'"';
                 echo '</script>';
             } else {
                 echo '<script language="javascript">';
@@ -101,11 +139,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             $stmt->close();
         } else {
-            echo "No changes to update.";
+            echo '<script language="javascript">';
+            echo 'alert("Tidak Ada yang Diperbarui");';
+            echo 'window.location = "profile.php?userid='.$user_id.'"';
+            echo '</script>';
         }
     } else {
         foreach ($errors as $error) {
-            echo $error . "<br>";
+            echo '<script>alert("'.$error.'"); window.location = "editprofile.php";</script>';
         }
     }
 } else {

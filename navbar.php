@@ -1,20 +1,26 @@
 <?php
 
 session_start(); // ketika mulai session harus ada sintak ini dulu
-
-if (!isset($_SESSION['id'])) 
 require_once("config/connect.php");
+if(isset($_SESSION['id'])){
+    $idclient = $_SESSION['id'];
+    $query = mysqli_query($is_connect, "SELECT * FROM client WHERE id = $idclient ");
+
+    if(mysqli_num_rows($query) == 1){
+        $row = mysqli_fetch_assoc($query);
+        $fotoprofil = $row['foto_profil'];
+    }
+}else{
+  header('Location: index.php');
+}
 ?>
-
-
-
 
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board HTML-5 Template </title>
+         <title>Jajal</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
@@ -55,9 +61,8 @@ require_once("config/connect.php");
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
                                             <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="job_listing.php">Cari Jasa</a></li>
-                                            <li><a href="about.php">Tentang Kami</a></li>
-                                            <li><a href="contact.php">Kontak</a></li>
+                                            <li><a href="search.php">Cari Jasa</a></li>
+                                            <li><a href="category.php">Kategori</a></li>
                                         </ul>
                                     </nav>
                                 </div>          
@@ -71,15 +76,15 @@ require_once("config/connect.php");
 						    <span class="navbar-toggler-icon"></span>
 						  </button>
 						  <div id="pp">
-						    <a href="profile.php">
-						          <img src="./assets/img/icon/defaultpp.jpg" width="40" height="40" class="rounded-circle">
-						    </a>
+						    <a href="profile.php?userid=<?php echo $_SESSION['id'] ?>">
+						          <img src="assets/img/profile/<?php echo $idclient; ?>/<?php echo $fotoprofil; ?>" width="60" height="50" class="rounded-circle">
+                            </a>
 						  </div>
 						</nav>
 
                                     <?php }else{ ?>
-                                        <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
-                                        <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
+                                        <a href="#login" class="btn head-btn2" id="login" data-toggle="modal" data-target="#modallogin">Masuk</a>
+                                        <a href="#register" class="btn head-btn1" id="register" data-toggle="modal" data-target="#modalregister">Daftar</a>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -188,11 +193,6 @@ require_once("config/connect.php");
                               <div class="form-outline mb-4">
                                 <input type="email" name="email" class="form-control form-control-lg" />
                                 <label class="form-label" for="email">Email</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="file" name="foto_profil" class="form-control form-control-lg" />
-                                <label class="form-label" for="email">Foto Profil</label>
                               </div>
 
                               <div class="pt-1 mb-4">

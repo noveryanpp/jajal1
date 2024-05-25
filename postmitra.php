@@ -33,11 +33,7 @@ $rql = mysqli_query($is_connect, $query);
                     </div>
                     <div class="col-md-12">
                         <div class="table-wrap">
-                            <table class="table">
-                            <?php
-                                $fetch_data = mysqli_fetch_all($rql, MYSQLI_BOTH);
-                                    foreach($fetch_data as $data){
-                                    ?>                 
+                            <table class="table">            
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>&nbsp;</th>
@@ -46,10 +42,15 @@ $rql = mysqli_query($is_connect, $query);
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
+                                <?php
+                                $fetch_data = mysqli_fetch_all($rql, MYSQLI_BOTH);
+                                    foreach($fetch_data as $data){
+                                        $imgUrl = "./assets/img/service/".$data['nomor']."/";
+                                    ?>     
                                 <tbody class="align-middle">
                                     <tr class="alert" role="alert">
                                         <td>
-                                            <img src="assets/img/gallery/1.png" height="100"></img>
+                                        <img src="<?php echo $imgUrl . $data['foto_jasa']; ?>" height="100"></img>
                                         </td>
                                         <td>
                                             <div class="email">
@@ -58,9 +59,9 @@ $rql = mysqli_query($is_connect, $query);
                                         </td>
                                         <td>Rp<?php echo $data["minharga"] ?>-<?php echo $data["maxharga"] ?></td>
                                         <td>
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <a href="editjasa.php?idservice=<?php echo $data['nomor']?>" type="button" class="close" aria-label="Close">
                                                 <span aria-hidden="true"><i class="fa fa-edit"></i></span>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>

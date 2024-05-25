@@ -18,6 +18,8 @@ if(isset($_SESSION['id'])){
         $member_since = $row['member_sejak'];
         $fotoprofil = $row['foto_profil'];
     }
+}else{
+  header('Location: index.php');
 }
 ?>
 
@@ -65,7 +67,7 @@ if(isset($_SESSION['id'])){
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
                                             <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="job_listing.php">Cari Jasa</a></li>
+                                            <li><a href="search.php">Cari Jasa</a></li>
                                             <li><a href="about.php">Tentang Kami</a></li>
                                             <li><a href="contact.php">Kontak</a></li>
                                         </ul>
@@ -243,85 +245,80 @@ if(isset($_SESSION['id'])){
         </div>
         <div class="row">
             <div class="col-sm-3"><!--left col-->
-                
-
-        <div class="text-center">
-            <img src="./assets/img/icon/defaultpp.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
-            <h6>Upload a different photo...</h6>
-            <input type="file" class="text-center center-block file-upload">
-        </div></hr><br>
-
-                
-            <div class="panel panel-default">
-                <div class="panel-heading"><p><b>Member Since :</b> <?php echo $member_since; ?></p></div>
-            </div>
-            
-            </div><!--/col-3-->
-            <div class="col-sm-9">
-            <div class="tab-content">
-                <div class="tab-pane active" id="home">
-                    <hr>
-                    <form class="form" action="editprof.php" method="post" id="registrationForm">
-                        <div class="form-group">
-                            
-                            <div class="col-xs-6">
-                                <label for="first_name"><h4>Username</h4></label>
-                                <input type="text" class="form-control" name="username" id="username" placeholder="<?php echo $username; ?>" title="enter your first name if any.">
+            <form class="form" action="editprof.php" method="post" id="registrationForm" enctype="multipart/form-data">
+                <div class="text-center">
+                  
+                    <img src="assets/img/profile/<?php echo $idclient; ?>/<?php echo $fotoprofil; ?>" class="avatar img-circle img-thumbnail" alt="avatar">
+                    <h6>Upload a different photo...</h6>
+                    <input type="file" class="text-center center-block file-upload" name="foto_profil" id="foto_profil">
+                </div>
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p><b>Member Since :</b> <?php echo $member_since; ?></p>
+                    </div>
+                </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="first_name"><h4>Username</h4></label>
+                                    <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>" title="enter your first name if any.">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            
-                            <div class="col-xs-6">
-                                <label for="last_name"><h4>Nama Lengkap</h4></label>
-                                <input type="text" class="form-control" name="nama" id="nama" placeholder="<?php echo $namalengkap; ?>" title="enter your last name if any.">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="last_name"><h4>Nama Lengkap</h4></label>
+                                    <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $namalengkap; ?>" title="enter your last name if any.">
+                                </div>
                             </div>
-                        </div>
-            
-                        <div class="form-group">
-                            
-                            <div class="col-xs-6">
-                                <label for="phone"><h4>No. Telp</h4></label>
-                                <input type="text" class="form-control" name="no_telepon" id="no_telepon" placeholder="<?php echo $no_telp; ?>" title="enter your phone number if any.">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="phone"><h4>No. Telp</h4></label>
+                                    <input type="text" class="form-control" name="no_telepon" id="no_telepon" value="<?php echo $no_telp; ?>" title="enter your phone number if any.">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            
-                            <div class="col-xs-6">
-                                <label for="email"><h4>Email</h4></label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="<?php echo $email; ?>" title="enter your email.">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="email"><h4>Email</h4></label>
+                                    <input type="email" class="form-control" name="email" id="email" value="<?php echo $email; ?>" title="enter your email.">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="text"><h4>Alamat</h4></label>
-                                <input type="text" class="form-control" name="alamat" id="alamat" placeholder="<?php echo $alamat; ?>" title="enter a location">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="text"><h4>Alamat</h4></label>
+                                    <input type="text" class="form-control" name="alamat" id="alamat" value="<?php echo $alamat; ?>" title="enter a location">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="password"><h4>Password Baru</h4></label>
-                                <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="Masukkan Password Baru" title="Enter a new password.">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="password"><h4>Password Baru</h4></label>
+                                    <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="Masukkan Password Baru" title="Enter a new password.">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="confirmpassword"><h4>Konfirmasi Password</h4></label>
-                                <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Konfirmasi Password Baru" title="Confirm your new password.">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="confirmpassword"><h4>Konfirmasi Password</h4></label>
+                                    <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Konfirmasi Password Baru" title="Confirm your new password.">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                        <div class="col-xs-12">
-                            
-                        </div>
-                        <div class="form-group">
-                        <div class="form-group">
-                            <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="col-xs-12">
                                     <br>
                                     <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Simpan</button>
                                     <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Batal</button>
                                 </div>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            </form>
+
+            </div><!--/col-3-->
+            
                 
                 <hr>
                 </div>
@@ -330,3 +327,4 @@ if(isset($_SESSION['id'])){
             </div><!--/col-9-->
         </div><!--/row-->    
     </main>
+

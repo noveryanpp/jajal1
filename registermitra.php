@@ -1,9 +1,35 @@
+<?php
+
+session_start(); // ketika mulai session harus ada sintak ini dulu
+include('config/connect.php');
+
+if (!isset($_SESSION['id'])) {
+    echo '<script language="javascript">';
+    echo 'alert("Silahkan Login Terlebih Dahulu!");';
+    echo 'window.location = "index.php"';
+    echo '</script>';
+}else{
+    $clientid = $_SESSION['id'];
+    $query10 = "SELECT id_mitra FROM client where id = $clientid";
+    $resq10 = mysqli_query($is_connect, $query10);
+    $resa10 = mysqli_fetch_assoc($resq10);
+    if($resa10['id_mitra']!=NULL){
+        echo '<script language="javascript">';
+        echo 'alert("Anda Sudah Menjadi Mitra!");';
+        echo 'window.location = "index.php"';
+        echo '</script>';
+    }
+}
+include('navbar.php');
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board HTML-5 Template </title>
+         <title>Register Mitra - Jajal</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">

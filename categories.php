@@ -56,7 +56,7 @@
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
                                             <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="job_listing.php">Cari Jasa</a></li>
+                                            <li><a href="search.php">Cari Jasa</a></li>
                                             <li><a href="about.php">Tentang Kami</a></li>
                                             <li><a href="contact.php">Kontak</a></li>
                                         </ul>
@@ -200,7 +200,7 @@
                                 <span class="flaticon-tour"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Desain Grafis</a></h5>
+                               <h5><a href="search.php">Desain Grafis</a></h5>
                                 <span>(653)</span>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
                                 <span class="flaticon-cms"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Pengembangan Web & Software</a></h5>
+                               <h5><a href="search.php">Pengembangan Web & Software</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                                 <span class="flaticon-report"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Marketing</a></h5>
+                               <h5><a href="search.php">Marketing</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -233,7 +233,7 @@
                                 <span class="flaticon-app"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Pengembangan Aplikasi <br>Mobile</a></h5>
+                               <h5><a href="search.php">Pengembangan Aplikasi <br>Mobile</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                                 <span class="flaticon-helmet"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php"></a></h5>
+                               <h5><a href="search.php"></a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                                 <span class="flaticon-high-tech"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Elektronika</a></h5>
+                               <h5><a href="search.php">Elektronika</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                                 <span class="flaticon-real-estate"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Desain Bangunan & Arsitektur</a></h5>
+                               <h5><a href="search.php">Desain Bangunan & Arsitektur</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>
@@ -277,7 +277,7 @@
                                 <span class="flaticon-content"></span>
                             </div>
                             <div class="services-cap">
-                               <h5><a href="job_listing.php">Content Writer</a></h5>
+                               <h5><a href="search.php">Content Writer</a></h5>
                                 <span>(658)</span>
                             </div>
                         </div>

@@ -7,7 +7,7 @@ require_once("config/connect.php");
 include("config/jscss.php");
 }
 
-$query = "SELECT *,service.id as nomor FROM `service` join mitra on mitra.id=service.id_mitra where id_client =" . $_SESSION['id'];
+$query = "SELECT *,service.id as nomor FROM `service` join mitra on mitra.id=service.id_mitra where id_client = '$userid'";
 $rql = mysqli_query($is_connect, $query);
 
 ?>
@@ -30,11 +30,7 @@ $rql = mysqli_query($is_connect, $query);
                     </div>
                     <div class="col-md-12">
                         <div class="table-wrap">
-                            <table class="table">
-                            <?php
-                                $fetch_data = mysqli_fetch_all($rql, MYSQLI_BOTH);
-                                    foreach($fetch_data as $data){
-                                    ?>                 
+                            <table class="table">              
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>&nbsp;</th>
@@ -44,22 +40,29 @@ $rql = mysqli_query($is_connect, $query);
                                     </tr>
                                 </thead>
                                 <tbody class="align-middle">
+                                    <?php
+                                    $fetch_data = mysqli_fetch_all($rql, MYSQLI_BOTH);
+                                    foreach($fetch_data as $data){
+                                        $imgUrl = "./assets/img/service/".$data['nomor']."/";
+                                    ?>   
                                     <tr class="alert" role="alert">
                                         <td>
-                                            <img src="assets/img/gallery/1.png" height="100"></img>
+                                            <img src="<?php echo $imgUrl . $data['foto_jasa']; ?>" height="100"></img>
                                         </td>
                                         <td>
                                             <div class="email">
-                                                <span><?php echo $data["judul"] ?></span>
+                                                <a href="service.php?idservice=<?php echo $data['nomor'] ?>" class="streched-link">
+                                                    <b><?php echo $data["judul"] ?></b>
+                                                </a>
                                             </div>
                                         </td>
                                         <td>Rp<?php echo $data["minharga"] ?>-<?php echo $data["maxharga"] ?></td>
                                         <td>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                 </tbody>
-                                <?php }
-                                ?>
+                                
                             </table>
                         </div>
                     </div>

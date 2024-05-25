@@ -1,328 +1,158 @@
+
+<!--
+//require_once("config/connect.php");
+//$query = "select service.*,client.nama as nama_penjual from service join mitra on mitra.id=service.id_mitra inner join client on client.id=mitra.id_client";
+
+//$run_sql1 = mysqli_query($is_connect, $query);//menjalankan query
+//var_dump($sql); //cek isi variabel
+//?
+-->
 <?php
-
-//session_start(); // ketika mulai session harus ada sintak ini dulu
-
+session_start(); // ketika mulai session harus ada sintak ini dulu
 require_once("config/connect.php");
-include("config/jscss.php");
-$query = "select service.*,client.nama as nama_penjual,mitra.foto_profil as profil_mitra,
-          mitra.nama_sekolah as sekolah,client.email as email,mitra.no_telepon as no_telepon 
-          from service join mitra on mitra.id=service.id_mitra inner join client on client.id=mitra.id_client 
-          where service.id = 1;";
 
-$run_sql = mysqli_query($is_connect, $query);
-//var_dump($sql);
+$batas = 6;
+$halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+$first_card_perpage = ($halaman * $batas) - $batas;
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+$query1 = "SELECT service.*, client.nama as namapenjual 
+           FROM service 
+           INNER JOIN client ON service.id_mitra = client.id_mitra 
+           WHERE judul LIKE '%" . $search . "%' 
+           LIMIT $first_card_perpage, $batas";
+
+$result1 = mysqli_query($is_connect, $query1);
+$allSer = mysqli_fetch_all($result1, MYSQLI_BOTH);
+
+include("navbar.php");
 ?>
-
 
 <!doctype html>
 <html class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board HTML-5 Template </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-
-		<!-- CSS here -->
-            <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-            <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-            <link rel="stylesheet" href="assets/css/flaticon.css">
-            <link rel="stylesheet" href="assets/css/slicknav.css">
-            <link rel="stylesheet" href="assets/css/price_rangs.css">
-            <link rel="stylesheet" href="assets/css/animate.min.css">
-            <link rel="stylesheet" href="assets/css/magnific-popup.css">
-            <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-            <link rel="stylesheet" href="assets/css/themify-icons.css">
-            <link rel="stylesheet" href="assets/css/slick.css">
-            <link rel="stylesheet" href="assets/css/nice-select.css">
-            <link rel="stylesheet" href="assets/css/style.css">
-   </head>
-
-   <body>
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/logo1.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
-    <header>
-        <!-- Header Start -->
-       <div class="header-area header-transparrent">
-           <div class="headder-top header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-2">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href="index.php"><img src="assets/img/logo/logo1.png" class="w-50" alt=""></a>
-                            </div>  
-                        </div>
-                        <div class="col-lg-9 col-md-9">
-                            <div class="menu-wrapper">
-                                <!-- Main-menu -->
-                                <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
-                                        <ul id="navigation">
-                                            <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="job_listing.php">Cari Jasa</a></li>
-                                            <li><a href="about.php">Tentang Kami</a></li>
-                                            <li><a href="contact.php">Kontak</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>          
-                                <!-- Header-btn -->
-                                <div class="header-btn d-none f-right d-lg-block">
-                                    <a href="#register" class="btn head-btn1" data-toggle="modal" data-target="#modalregister">Daftar</a>
-                                    <a href="#login" class="btn head-btn2" data-toggle="modal" data-target="#modallogin">Masuk</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-       </div>
-        <!-- Header End -->
-    </header>
     <main>
-
-        <div class="modal fade" id="modallogin" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true">
-          <div class='modal-dialog modal-lg'>
-            <div class='modal-content'>
-              <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                  <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
-                      <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                          <div class="card-body p-4 p-lg-5 text-black">
-
-                            <form>
-
-                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Masuk ke Akun Anda</h5>
-
-                              <div class="form-outline mb-4">
-                                <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                                <label class="form-label" for="form2Example17">Alamat Email</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="password" id="form2Example27" class="form-control form-control-lg" />
-                                <label class="form-label" for="form2Example27">Kata Sandi</label>
-                              </div>
-
-                              <div class="pt-1 mb-4">
-                                <button class="btn btn-dark btn-lg btn-block" type="button">Masuk</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="row justify-content-center mt-5">
+          <div class="col-xl-10">
+            <form action="" method="GET" class="search-box">
+              <div class="input-form">
+                <input type="search" name="search" placeholder="Nama Jasa atau Kata Kunci">
               </div>
-            </div>
+              <div class="select-form">
+                  <div class="select-itms">
+                      <select name="select" id="select1">
+                          <option value="">Semua Kategori</option>
+                          <option value="">Otomotif</option>
+                          <option value="">Elektronik</option>
+                          <option value="">Desain</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="search-form">
+                  <button type="submit">Cari Jasa</button>
+              </div>  
+            </form>
           </div>
         </div>
 
-        <div class="modal fade" id="modalregister" tabindex="-1" role="dialog" aria-labelledby="RegisterModal" aria-hidden="true">
-          <div class='modal-dialog modal-lg'>
-            <div class='modal-content'>
-              <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                  <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem; border-color: transparent;">
-                      <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                            alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                          <div class="card-body p-4 p-lg-5 text-black">
-
-                            <form>
-
-                              <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Daftar Akun</h5>
-
-                              <div class="form-outline mb-4">
-                                <input type="text" id="name" class="form-control form-control-lg" />
-                                <label class="form-label" for="name">Nama Lengkap</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="username" id="username class="form-control form-control-lg" />
-                                <label class="form-label" for="username">Username</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="email" id="email" class="form-control form-control-lg" />
-                                <label class="form-label" for="email">Alamat Email</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="tel" id="notelp" class="form-control form-control-lg" />
-                                <label class="form-label" for="notelp">No. Telepon</label>
-                              </div>
-
-                              <div class="form-outline mb-4">
-                                <input type="password" id="password" class="form-control form-control-lg" />
-                                <label class="form-label" for="password">Password</label>
-                              </div>
-
-                              <div class="pt-1 mb-4">
-                                <button class="btn btn-dark btn-lg btn-block" type="button">Daftar</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- job post company Start -->
-        <div class="job-post-company pt-5 pb-120">
+        <div class="job-listing-area pt-30 pb-120">
             <div class="container">
-            <?php
-                $fetch_data = mysqli_fetch_all($run_sql, MYSQLI_BOTH);
-                foreach($fetch_data as $data){
-            ?>
-                <div class="row justify-content-between">
-                    <!-- Left Content -->
-                    <div class="col-xl-7 col-lg-8">
-                        <div class="job-tittle">
-                            <h1><?php echo $data["judul"] ?></h1>
-                        </div> 
-
-                        <!-- job single -->
-                        <div class="single-job-items">
-                            <div class="job-items">
-                                <div class="company-img company-img-details">
-                                    <a href="#"><img src="assets/img/blog/author.png" style="width: 80px" alt=""></a>
+                <div class="row">
+                    <!-- Right content -->
+                    <div class="col">
+                        <!-- Featured_job_start -->
+                        <section class="featured-job-area">
+                            <div class="container">
+                                <!-- Count of Job list Start -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="count-job mb-35">
+                                            <?php if (isset($_GET['search'])) { ?>
+                                                <span>Hasil Pencarian Dari : <?php echo htmlspecialchars($search); ?></span>
+                                            <?php } else { ?>
+                                                <span>39, 782 Jobs found</span>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="job-tittle">
-                                    <a href="#">
-                                        <h4><?php echo $data["nama_penjual"] ?></h4>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                            </svg>
-                                            4.7
-                                        </li>
-                                        <li>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                                              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                                            </svg>
-                                            Depok, Sleman
-                                        </li>
-                                        <li>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
-                                              <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
-                                            </svg>
-                                            <?php echo $data["sekolah"] ?>
-                                        </li>
-                                    </ul>
+                                <!-- Count of Job list End -->
+                                <!-- single-job-content -->
+                                <div class="card-deck">
+                                <?php if (empty($allSer)) { ?>
+                                    <div class="col-12 text-center">
+                                        <h4>Tidak Ada Hasil Yang Relavan</h4>
+                                    </div>
+                                <?php } else {
+                                    foreach ($allSer as $service) {
+                                        $imgUrl = "./assets/img/services/" . $service['id'] . "/" . $service['foto_jasa'];
+                                ?>
+                                    <div class="col-lg-4 mb-4">
+                                        <div class="card p-3">
+                                            <div class="about-product">
+                                                <div>
+                                                    <img src="<?php echo $imgUrl; ?>" width="300">
+                                                </div>
+                                                <div>
+                                                    <a href="service.php?idservice=<?php echo $service['id'] ?>" class="stretched-link">
+                                                        <h5 class="mt-1"><?php echo htmlspecialchars($service['judul']); ?></h5>
+                                                    </a>
+                                                    <a href="#"><p><?php echo htmlspecialchars($service['namapenjual']); ?></p></a>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <small class="text-muted"><i class="fa-solid fa-star"></i>4.7 (250)</small>
+                                            </div>
+                                            <div class="d-flex justify-content-between total font-weight-bold mt-4">
+                                                <span>Total</span><span>$7,197.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } } ?>
                                 </div>
                             </div>
-                        </div>
-                          <!-- job single End -->
-                        <div id="carouselExampleIndicators" class="carousel slide mb-50" data-ride="carousel">
-                          <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                          </ol>
-                          <div class="carousel-inner">
-                            <div class="carousel-item active">
-                              <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                              <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                              <img class="d-block w-100" src="./assets/img/elements/16x9.svg" alt="Third slide">
-                            </div>
-                          </div>
-                          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                          </a>
-                          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                          </a>
-                        </div>
-
-                       
-                        <div class="job-post-details">
-                            <div class="post-details1 mb-50">
-                                <!-- Small Section Tittle -->
-                                <div class="small-section-tittle">
-                                    <h4>Deskripsi Jasa</h4>
-                                </div>
-                                <p><?php echo $data["deskripsi"] ?></p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- Right Content -->
-                    <div class="col-xl-4 col-lg-4">
-                        <div class="post-details3  mb-50">
-                            <!-- Small Section Tittle -->
-                           <div class="small-section-tittle">
-                               <h4>Detail Jasa</h4>
-                           </div>
-                          <ul>
-                              <li>Diunggah Pada : <span><?php echo $data["tanggal_upload"] ?></span></li>
-                              <li>Lokasi : <span>Yogyakarta</span></li>
-                              <li>Harga :  <span>Rp<?php echo $data["minharga"] ?> - Rp<?php echo $data["maxharga"] ?></span></li>
-                          </ul>
-                         <div class="apply-btn2">
-                            <a href="#" class="btn">Hubungi Penjual</a>
-                         </div>
-                       </div>
-                        <div class="post-details4  mb-50">
-                            <!-- Small Section Tittle -->
-                           <div class="small-section-tittle">
-                               <h4>Informasi Penjual</h4>
-                           </div>
-                              <span><?php echo $data["nama_penjual"] ?></span>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                            <ul>
-                                <li>Nama : <span><?php echo $data["nama_penjual"] ?></span></li>
-                                <li>Email : <span><?php echo $data["email"] ?></span></li>
-                                <li>No. Telp : <span><?php echo $data["no_telepon"] ?></span></li>
-                            </ul>
-                       </div>
+                        </section>
+                        <!-- Featured_job_end -->
                     </div>
                 </div>
             </div>
-            <?php }
-            ?>
         </div>
-        <!-- job post company End -->
-
+        <!-- Job List Area End -->
+        <!--Pagination Start  -->
+        <?php 
+        $previous = $halaman - 1;
+        $next = $halaman + 1;
+        $data = mysqli_query($is_connect, $query1);
+        $jumlah_data = mysqli_num_rows($data);
+        $total_halaman = ceil($jumlah_data / $batas);
+        ?>
+        <div class="pagination-area pb-115 text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="single-wrap d-flex justify-content-center">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item">
+                                        <a class="page-link" <?php if ($halaman > 1) { echo "href='?halaman=$previous'"; } ?>>Previous</a>
+                                    </li>
+                                    <?php 
+                                    for ($x = 1; $x <= $total_halaman; $x++) {
+                                    ?> 
+                                    <li class="page-item"><a class="page-link" href="?halaman=<?php echo $x ?>"><?php echo $x; ?></a></li>
+                                    <?php
+                                    }
+                                    ?>              
+                                    <li class="page-item">
+                                        <a class="page-link" <?php if ($halaman < $total_halaman) { echo "href='?halaman=$next'"; } ?>>Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Pagination End  -->
     </main>
     <footer>
         <!-- Footer Start-->
@@ -467,11 +297,10 @@ $run_sql = mysqli_query($is_connect, $query);
 	    <!-- Jquery Mobile Menu -->
         <script src="./assets/js/jquery.slicknav.min.js"></script>
 
-		<!-- Jquery Slick , Owl-Carousel Plugins -->
+		<!-- Jquery Slick , Owl-Carousel Range -->
         <script src="./assets/js/owl.carousel.min.js"></script>
         <script src="./assets/js/slick.min.js"></script>
         <script src="./assets/js/price_rangs.js"></script>
-        
 		<!-- One Page, Animated-HeadLin -->
         <script src="./assets/js/wow.min.js"></script>
 		<script src="./assets/js/animated.headline.js"></script>
@@ -495,3 +324,164 @@ $run_sql = mysqli_query($is_connect, $query);
         
     </body>
 </html>
+
+<!--                     <div class="col-xl-3 col-lg-3 col-md-4">
+                        <div class="row">
+                            <div class="col-12">
+                                    <div class="small-section-tittle2 mb-45">
+                                    <div class="ion"> <svg 
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="20px" height="12px">
+                                    <path fill-rule="evenodd"  fill="rgb(27, 207, 107)"
+                                        d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z"/>
+                                    </svg>
+                                    </div>
+                                    <h4>Filter Jobs</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Job Category Listing start -->
+                        <div class="job-category-listing mb-50">
+                            <!-- single one -->
+                            <div class="single-listing">
+                               <div class="small-section-tittle2">
+                                     <h4>Job Category</h4>
+                               </div>
+                                <!-- Select job items start -->
+                                <div class="select-job-items2">
+                                    <select name="select">
+                                        <option value="">All Category</option>
+                                        <option value="">Category 1</option>
+                                        <option value="">Category 2</option>
+                                        <option value="">Category 3</option>
+                                        <option value="">Category 4</option>
+                                    </select>
+                                </div>
+                                <!--  Select job items End-->
+                                <!-- select-Categories start -->
+                                <div class="select-Categories pt-80 pb-50">
+                                    <div class="small-section-tittle2">
+                                        <h4>Job Type</h4>
+                                    </div>
+                                    <label class="container">Full Time
+                                        <input type="checkbox" >
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Part Time
+                                        <input type="checkbox" checked="checked active">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Remote
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Freelance
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <!-- select-Categories End -->
+                            </div>
+                            <!-- single two -->
+                            <div class="single-listing">
+                               <div class="small-section-tittle2">
+                                     <h4>Job Location</h4>
+                               </div>
+                                <!-- Select job items start -->
+                                <div class="select-job-items2">
+                                    <select name="select">
+                                        <option value="">Anywhere</option>
+                                        <option value="">Category 1</option>
+                                        <option value="">Category 2</option>
+                                        <option value="">Category 3</option>
+                                        <option value="">Category 4</option>
+                                    </select>
+                                </div>
+                                <!--  Select job items End-->
+                                <!-- select-Categories start -->
+                                <div class="select-Categories pt-80 pb-50">
+                                    <div class="small-section-tittle2">
+                                        <h4>Experience</h4>
+                                    </div>
+                                    <label class="container">1-2 Years
+                                        <input type="checkbox" >
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">2-3 Years
+                                        <input type="checkbox" checked="checked active">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">3-6 Years
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">6-more..
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <!-- select-Categories End -->
+                            </div>
+                            <!-- single three -->
+                            <div class="single-listing">
+                                <!-- select-Categories start -->
+                                <div class="select-Categories pb-50">
+                                    <div class="small-section-tittle2">
+                                        <h4>Posted Within</h4>
+                                    </div>
+                                    <label class="container">Any
+                                        <input type="checkbox" >
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Today
+                                        <input type="checkbox" checked="checked active">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Last 2 days
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Last 3 days
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Last 5 days
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container">Last 10 days
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <!-- select-Categories End -->
+                            </div>
+                            <div class="single-listing">
+                                <!-- Range Slider Start -->
+                                <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
+                                    <div class="small-section-tittle2">
+                                        <h4>Filter Jobs</h4>
+                                    </div>
+                                    <div class="widgets_inner">
+                                        <div class="range_item">
+                                            <!-- <div id="slider-range"></div> -->
+                                            <input type="text" class="js-range-slider" value="" />
+                                            <div class="d-flex align-items-center">
+                                                <div class="price_text">
+                                                    <p>Price :</p>
+                                                </div>
+                                                <div class="price_value d-flex justify-content-center">
+                                                    <input type="text" class="js-input-from" id="amount" readonly />
+                                                    <span>to</span>
+                                                    <input type="text" class="js-input-to" id="amount" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </aside>
+                              <!-- Range Slider End -->
+                            </div>
+                        </div>
+                        <!-- Job Category Listing End -->
+                    </div> -->
